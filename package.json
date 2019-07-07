@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dotenv": "^8.0.0",
     "file-system": "^2.2.2",
     "graphql-yoga": "^1.18.0",
     "jsonwebtoken": "^8.5.1",

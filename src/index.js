@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 // Resolvers
 const Query = require('./resolvers/Query')
 const Mutation = require('./resolvers/Mutation')

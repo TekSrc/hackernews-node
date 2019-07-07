@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 // Secret used to sign the JWTs which I'm issuing to my users
-const APP_SECRET = 'GraphQL-is-aw3some'
+const APP_SECRET = process.env.APP_SECRET
 
 /** helper function that I'll call in resolvers which require authentication(post for ex).
  * First retrieves Authorization header (which contains the User's JWT) from the context.
