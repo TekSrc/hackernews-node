@@ -5,6 +5,8 @@ const Query = require('./resolvers/Query')
 const Mutation = require('./resolvers/Mutation')
 const User = require('./resolvers/User')
 const Link = require('./resolvers/Link')
+const Subscription = require('./resolvers/Subscription')
+const Vote = require('./resolvers/Vote')
 
 const { GraphQLServer } = require('graphql-yoga')
 const { prisma } = require('./generated/prisma-client')
@@ -24,9 +26,10 @@ The resolvers object is the actual implementation of the GraphQL schema. Its str
 const resolvers = {
     Query,
     Mutation,
+    Subscription,
     User,
-    Link
-
+    Link,
+    Vote,
     // Flush code due to moving resolvers out
     // Query: {
     //     info: () => `This is the API or a Hackernews clone.`,

@@ -35,7 +35,7 @@ async function login(parent, args, context, info) {
 }
 
 function post(parent, args, context, info) {
-    // Retrieve the ID for the User, which is stored in the JWT that's set as the Authorization header of the incoming HTTP request. I'll know which User is creating the Link. 
+    // Retrieve the ID for the User, which is stored in the JWT that's set as the Authorization header of the incoming HTTP request. I'll know which User is creating the Link.
     const userId = getUserId(context)
     // Using userId to connect the Link to be created with the User who is creating it through a `nested object write`
     return context.prisma.createLink({
@@ -45,8 +45,33 @@ function post(parent, args, context, info) {
     })
 }
 
+async function vote(parent, args, context, info) {
+    // validate the incoming JWT with the getUserId helper function.
+    const userId = getUserId(context)
+    // If it’s valid, the function will return the userId of the User who is making the request.
+    const linkExists = await context.prisma.$exists.vote({
+        user: { id: userId },
+        link: { id: args.linkId },
+    })
+    // If the JWT is not valid, the function will throw an exception.
+    if (linkExists) { throw new Error(`Already voted for link: ${args.linkId}`) }
+
+    /**
+     * The prisma client instance not only exposes CRUD methods for your models, it also generates one $exists function per model.
+     * $exists function takes a where filter object that allows to specify certain conditions about elements of that type.
+     * Only if the condition applies to at least one element in the database, the $exists function returns true.
+     * In this case, I'm using it to verify that the requesting User has not yet voted for the Link that’s identified by args.linkId.
+     * If exists returns false, the createVote method will be used to create a new Vote that’s connected to the User and the Link.
+     */
+    return context.prisma.createVote({
+        user: { connect: { id: userId } },
+        link: { connect: { id: args.linkId } },
+    })
+}
+
 module.exports = {
     signup,
     login,
     post,
+    vote,
 }
