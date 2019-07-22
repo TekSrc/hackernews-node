@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "play": "node src/index.js"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.0.0",
